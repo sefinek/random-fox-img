@@ -15,7 +15,6 @@ module.exports = () => new Promise((resolve, reject) => {
 		}
 
 		let data = '';
-		res.setEncoding('utf8');
 		res.on('data', chunk => data += chunk);
 		res.on('end', () => {
 			try {
