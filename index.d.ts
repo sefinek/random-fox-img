@@ -11,7 +11,7 @@ export interface GetRandomFox {
 }
 
 /**
- * Fetches a random fox object from the API.
+ * Fetches a random fox image from the API.
  * @returns A promise that resolves to a random fox object on success.
  * @throws If the request fails, the response is invalid, or JSON parsing fails.
  */
