@@ -1,40 +1,28 @@
-const https = require('https');
+const { get } = require('https');
 const { name, version, devDependencies } = require('./package.json');
 
-const apiUrl = 'https://api.sefinek.net/api/v2/random/animal/fox';
 const headers = {
-	'User-Agent': `${name}/${version} (+https://github.com/sefinek/random-fox-img)${process.env.JEST_WORKER_ID === undefined ? '' : ` jest/${devDependencies.jest.replace('^', '')}`}`,
+	'User-Agent': `${name}/${version} (+https://github.com/sefinek/random-fox-img)${process.env.JEST_WORKER_ID ? ` jest/${devDependencies.jest.replace('^', '')}` : ''}`,
 	'Accept': 'application/json',
-	'Content-Type': 'application/json',
 	'Cache-Control': 'no-cache',
 	'Connection': 'keep-alive',
-	'DNT': '1'
 };
 
-const getRandomFox = () => new Promise((resolve, reject) => {
-	const req = https.get(apiUrl, { headers }, res => {
+module.exports = () => new Promise((resolve, reject) => {
+	get('https://api.sefinek.net/api/v2/random/animal/fox', { headers }, res => {
 		if (res.statusCode !== 200) {
-			reject(new Error(`Request failed with status code ${res.statusCode}`));
-			return;
+			return reject(new Error(`Request failed with status code ${res.statusCode}`));
 		}
 
-		const data = [];
-
-		res.on('data', chunk => data.push(chunk));
-
+		let data = '';
+		res.setEncoding('utf8');
+		res.on('data', chunk => data += chunk);
 		res.on('end', () => {
 			try {
-				const catData = JSON.parse(Buffer.concat(data).toString());
-				resolve(catData);
+				resolve(JSON.parse(data));
 			} catch (err) {
-				reject(new Error(`Error parsing JSON data: ${err.message}`));
+				reject(new Error(`Failed to parse JSON: ${err.message}`));
 			}
 		});
-	});
-
-	req.on('error', err => reject(new Error(`Error making the request: ${err.message}`)));
-
-	req.end();
+	}).on('error', err => reject(new Error(`Request error: ${err.message}`)));
 });
-
-module.exports = getRandomFox;
