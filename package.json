@@ -21,13 +21,13 @@
     "random-foxes",
     "random-foxs"
   ],
-  "homepage": "https://github.com/sefinek24/random-fox-img#readme",
+  "homepage": "https://github.com/sefinek/random-fox-img#readme",
   "bugs": {
-    "url": "https://github.com/sefinek24/random-fox-img/issues"
+    "url": "https://github.com/sefinek/random-fox-img/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sefinek24/random-fox-img.git"
+    "url": "git+https://github.com/sefinek/random-fox-img.git"
   },
   "license": "MIT",
   "author": "Sefinek <contact@sefinek.net> (https://sefinek.net)",
